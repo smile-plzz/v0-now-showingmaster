@@ -1,7 +1,4 @@
 {
   "buildCommand": "next build",
-  "installCommand": "npm install",
-  "env": {
-    "OMDB_API_KEY": "@omdb_api_key"
-  }
+  "installCommand": "npm install"
 }
