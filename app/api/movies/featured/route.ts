@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-const OMDB_API_KEY = process.env.OMDB_API_KEY || "2f7dc7b5"
+const OMDB_API_KEY = "2f7dc7b5"
 const featuredMovies = ["Inception", "The Matrix", "Interstellar", "Avatar", "Dune"]
 
 export async function GET() {
