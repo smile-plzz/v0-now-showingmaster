@@ -7,7 +7,7 @@
     "streaming",
     "responsive",
     "vercel",
-    "serverless"
+    "next.js"
   ],
   "repository": {
     "type": "git",
@@ -16,14 +16,12 @@
   "license": "MIT",
   "author": "Ismail Hossain",
   "type": "module",
-  "main": "app.js",
   "scripts": {
-    "build": "echo 'No build step required for static site'",
-    "dev": "node server.js",
-    "lint": "echo 'Linting completed'",
-    "start": "node server.js",
-    "test": "jest",
-    "vercel-build": "echo 'Build completed'"
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start",
+    "test": "jest"
   },
   "dependencies": {
     "@vercel/analytics": "latest",
@@ -44,14 +42,11 @@
     "tw-animate-css": "latest"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.28.0",
     "@types/node": "^22",
     "@types/react": "19.2.3",
     "@types/react-dom": "19.2.3",
-    "babel-jest": "^29.7.0",
-    "jest": "^29.7.0",
     "postcss": "^8.5",
-    "tailwindcss": "4.1.17",
+    "tailwindcss": "^4.1.9",
     "typescript": "^5"
   },
   "engines": {
