@@ -1,15 +1,10 @@
 "use client"
+import React from "react"
+import { Movie } from "@/types/types"
 
 import { Skeleton } from "@/components/ui/skeleton"
 import MovieCard from "./movie-card"
 
-interface Movie {
-  imdbID: string
-  Title: string
-  Poster: string
-  Year: string
-  Type: string
-}
 
 export default function MovieGrid({
   movies,

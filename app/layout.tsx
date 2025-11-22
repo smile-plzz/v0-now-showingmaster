@@ -13,7 +13,19 @@ export const metadata: Metadata = {
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
   },
-    generator: 'v0.app'
+  generator: 'v0.app',
+  openGraph: {
+    title: "NowShowing - Stream Movies & TV Shows",
+    description: "Discover and stream thousands of movies and TV shows from multiple sources with HD quality",
+    type: "website",
+    locale: "en_US",
+    siteName: "NowShowing",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NowShowing - Stream Movies & TV Shows",
+    description: "Discover and stream thousands of movies and TV shows from multiple sources with HD quality",
+  },
 }
 
 export default function RootLayout({

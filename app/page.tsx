@@ -1,37 +1,56 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import Navigation from "@/components/navigation"
 import Hero from "@/components/hero"
 import MovieGrid from "@/components/movie-grid"
 import Footer from "@/components/footer"
+import { Movie } from "@/types/types"
 
-export default function Home() {
-  const [popularMovies, setPopularMovies] = useState([])
-  const [popularShows, setPopularShows] = useState([])
-  const [loading, setLoading] = useState(true)
+async function getPopularMovies(): Promise<Movie[]> {
+  // Skip API calls during build
+  if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_APP_URL) {
+    return []
+  }
 
-  useEffect(() => {
-    const fetchInitialContent = async () => {
-      try {
-        // Fetch popular movies
-        const movieRes = await fetch("/api/movies/popular")
-        const movieData = await movieRes.json()
-        setPopularMovies(movieData.movies || [])
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+    const res = await fetch(`${baseUrl}/api/movies/popular`, {
+      next: { revalidate: 3600 }, // Revalidate every hour
+      cache: 'no-store' // Don't cache during build
+    })
+    if (!res.ok) return []
+    const data = await res.json()
+    return data.movies || []
+  } catch (error) {
+    console.error("Error fetching movies:", error)
+    return []
+  }
+}
 
-        // Fetch popular shows
-        const showRes = await fetch("/api/shows/popular")
-        const showData = await showRes.json()
-        setPopularShows(showData.shows || [])
-      } catch (error) {
-        console.error("Error fetching content:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
+async function getPopularShows(): Promise<Movie[]> {
+  // Skip API calls during build
+  if (process.env.NODE_ENV === 'production' && !process.env.NEXT_PUBLIC_APP_URL) {
+    return []
+  }
 
-    fetchInitialContent()
-  }, [])
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+    const res = await fetch(`${baseUrl}/api/shows/popular`, {
+      next: { revalidate: 3600 },
+      cache: 'no-store' // Don't cache during build
+    })
+    if (!res.ok) return []
+    const data = await res.json()
+    return data.shows || []
+  } catch (error) {
+    console.error("Error fetching shows:", error)
+    return []
+  }
+}
+
+export default async function Home() {
+  const [popularMovies, popularShows] = await Promise.all([
+    getPopularMovies(),
+    getPopularShows()
+  ])
 
   return (
     <main className="min-h-screen bg-(--color-background)">
@@ -40,12 +59,12 @@ export default function Home() {
 
       <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold mb-8">Popular Movies</h2>
-        <MovieGrid movies={popularMovies} isLoading={loading} />
+        <MovieGrid movies={popularMovies} />
       </section>
 
       <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold mb-8">Popular TV Shows</h2>
-        <MovieGrid movies={popularShows} isLoading={loading} />
+        <MovieGrid movies={popularShows} />
       </section>
 
       <Footer />
